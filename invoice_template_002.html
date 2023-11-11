@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+      <style>
+         
+      </style>
+    </head>
+    <body>
+      
+        <div class="container">
+            <div class="col-md-12">
+               <div class="invoice">
+                  <!-- begin invoice-company -->
+                  <div class="invoice-company text-inverse f-w-600">
+                     {{title}} #{{ '%05d' % invoiceNumber }} 
+                     <span class="
+                     {% if status=="due" %} status-due
+                     {% elif status=="pending" %} status-pending
+                     {% elif status=="paid" %} status-paid
+                     {% endif %}
+                     ">{{status | upper}}</span>
+                     
+                  </div>
+                  <!-- end invoice-company -->
+                  <!-- begin invoice-header -->
+                  <div class="invoice-header">
+                     <div class="invoice-from">
+                        <small>from</small>
+                        <address class="m-t-5 m-b-5">
+                           <strong class="text-inverse">{{server.firstName}} {{server.lastName}}</strong><br>
+                           {{server.address.city}}<br>
+                           {{server.address.country}}<br>
+                           <small>{{server.email}}</small>
+                        </address>
+                     </div>
+                     <div class="invoice-to">
+                        <small>to</small>
+                        <address class="m-t-5 m-b-5">
+                           <strong class="text-inverse">{{client.firstName}} {{client.lastName}}</strong><br>
+                           {{client.address.city}}<br>
+                           {{client.address.country}}<br>
+                           <small>{{client.email}}</small>
+                        </address>
+                     </div>
+                     <div class="invoice-date">
+                        <small>Invoice / {{ invoiceDate }} period</small>
+                        <div class="date text-inverse m-t-5 text-issued-date">Issued On: {{issueDate}}</div>
+                        <div class="date text-inverse m-t-5 text-due-date">Due Date: {{dueDate}}</div>
+                        <div class="invoice-detail">
+                           #{{ '%05d' % invoiceNumber }}<br>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- end invoice-header -->
+                  <!-- begin invoice-content -->
+                  <div class="invoice-content">
+                     <!-- begin table-responsive -->
+                     <div class="table-responsive">
+                        <table class="table table-invoice">
+                           <thead>
+                              <tr>
+                                 <th>TASK DESCRIPTION</th>
+                                 <th class="text-center" width="10%">RATE</th>
+                                 <th class="text-center" width="10%">HOURS</th>
+                                 <th class="text-right" width="20%">LINE TOTAL</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              {% set total = namespace(subtotal_price = 0) %}
+                              {% for item in itemList %}
+                                 <tr>
+                                    <td>
+                                       <span class="text-inverse">{{item.title}}</span><br>
+                                       <small>{{item.description}}</small>
+                                    </td>
+                                    <td class="text-center">${{ '%.2f' % item.rate }} {% if item.isFixedPrice %}(one-time){% endif %}</td>
+                                    <td class="text-center">
+                                       {% if not item.isFixedPrice %}
+                                          {{item.hours}}
+                                       {% else %}
+                                          -
+                                       {% endif %}
+                                    </td>
+                                    <td class="text-right">
+                                       {% if not item.isFixedPrice %}
+                                          ${{ '%.2f' % (item.rate*item.hours) }}</td>
+                                       {% else %}
+                                          ${{ '%.2f' % (item.rate) }}
+                                       {% endif %}
+                                 </tr>
+                                 {% set total.subtotal_price = total.subtotal_price + (item.rate*item.hours) %}
+                              {% endfor %}
+                           </tbody>
+                        </table>
+                     </div>
+                     <!-- end table-responsive -->
+                     <!-- begin invoice-price -->
+                     <div class="invoice-price">
+                        <div class="invoice-price-left">
+                           <div class="invoice-price-row">
+                              <div class="sub-price">
+                                 <small>SUBTOTAL</small>
+                                 <span class="text-inverse">${{ '%.2f' % total.subtotal_price }}</span>
+                              </div>
+                              <div class="sub-price">
+                                 <i class="fa fa-plus text-muted"></i>
+                              </div>
+                              <div class="sub-price">
+                                 <small>UPWORK FEE (10%)</small>
+                                 {% set mod_charges = moderatorCharges * total.subtotal_price %}
+                                 <span class="text-inverse">${{ '%.2f' %  mod_charges }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="invoice-price-right">
+                           {% set total.final_total = total.subtotal_price - mod_charges %}
+                           <small>TOTAL</small> <span class="f-w-600">${{ '%.2f' % total.final_total }}</span>
+                        </div>
+                        <div class="invoice-price-right">
+                           <small>AFTER DUE DATE</small> <span class="f-w-600">${{ '%.2f' % (total.final_total + (total.final_total * percentIncreaseAfterDueDate)) }}</span>
+                        </div>
+                     </div>
+                     <!-- end invoice-price -->
+                  </div>
+                  <!-- end invoice-content -->
+                  <!-- begin invoice-note -->
+                  <div class="invoice-note">
+                     <h5>Terms & Conditions</h5>
+                     <ul>
+                        {% for term in terms %}
+                           <li>{{term}}</li>
+                        {% endfor %}
+                     </ul>
+                  </div>
+                  <!-- end invoice-note -->
+                  <!-- begin invoice-footer -->
+                  <div class="invoice-footer">
+                     <p class="text-center m-b-5 f-w-600">
+                        THANK YOU FOR YOUR BUSINESS
+                     </p>
+                     <p class="text-center">
+                        <span class="m-r-10"><i class="fa fa-fw fa-lg fa-globe"></i> matiasgallipoli.com</span>
+                        <span class="m-r-10"><i class="fa fa-fw fa-lg fa-phone-volume"></i> T:016-18192302</span>
+                        <span class="m-r-10"><i class="fa fa-fw fa-lg fa-envelope"></i> rtiemps@gmail.com</span>
+                     </p>
+                  </div>
+                  <!-- end invoice-footer -->
+               </div>
+            </div>
+         </div>
+        
+        <script src="" async defer></script>
+    </body>
+</html>

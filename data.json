@@ -1,0 +1,64 @@
+{
+    "title": "Services Invoice",
+    "invoiceNumber": 13,
+    "issueDate": "10-03-2023",
+    "dueDate": "10-03-2023",
+    "status": "paid",
+    "client": {
+        "firstName": "John",
+        "lastName": "Doe",
+        "address": {
+            "city": "Popular City",
+            "country": "High Country"
+        },
+        "email": "john.doe@localhost.com"
+    },
+    "server": {
+        "logo": "path/to/logo.png",
+        "companyName": "Hammad's Company",
+        "firstName": "M. Hammad",
+        "lastName": "Hassan",
+        "address": {
+            "city": "Karachi, Sindh",
+            "country": "Pakistan"
+        },
+        "email": "hammad.siliconplex@gmail.com"
+    },
+    "itemList": [
+        {
+            "title": "Python",
+            "description": "python basics",
+            "isFixedPrice": false,
+            "rate": 12,
+            "hours": 10
+        },
+        {
+            "title": "HTML/CSS/JS",
+            "description": "basic frontend",
+            "isFixedPrice": false,
+            "rate": 14,
+            "hours": 8
+        },
+        {
+            "title": "Django",
+            "description": "basics of the framework",
+            "isFixedPrice": false,
+            "rate": 11,
+            "hours": 30
+        },
+        {
+            "title": "Course Handouts",
+            "description": "booklets and slides",
+            "isFixedPrice": true,
+            "rate": 6,
+            "hours": 0
+        }
+    ],
+    "moderatorCharges": 0.1,
+    "percentIncreaseAfterDueDate": 0.05,
+    "terms": [
+        "Make all cheques payable to M. Hammad Hassan on Upwork bearing username 'Muhammad Hammad Hassan'",
+        "Payment is due within 30 days",
+        "If you have any questions concerning this invoice, contact  Muhammad Hammad Hassan on Upwork"
+    ]
+}
