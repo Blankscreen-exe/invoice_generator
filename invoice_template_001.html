@@ -7,10 +7,9 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
+        <title>Invoice by {{server.firstName}} {{server.lastName}}</title>
+        <meta name="description" content="invoice for clients">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
       <style>
          
@@ -23,7 +22,7 @@
                <div class="invoice">
                   <!-- begin invoice-company -->
                   <div class="invoice-company text-inverse f-w-600">
-                     {{title}} #{{ '%05d' % invoiceNumber }} 
+                     {{title}} <span class="invoice-number-font">#{{ '%05d' % invoiceNumber }}</span>
                      <span class="
                      {% if status=="due" %} status-due
                      {% elif status=="pending" %} status-pending
@@ -33,6 +32,7 @@
                      
                   </div>
                   <!-- end invoice-company -->
+
                   <!-- begin invoice-header -->
                   <div class="invoice-header">
                      <div class="invoice-from">
@@ -84,7 +84,18 @@
                                        <span class="text-inverse">{{item.title}}</span><br>
                                        <small>{{item.description}}</small>
                                     </td>
-                                    <td class="text-center">${{ '%.2f' % item.rate }} {% if item.isFixedPrice %}(one-time){% endif %}</td>
+                                    <td class="text-center">
+                                       {% if not item.isFixedPrice %}
+                                          {# if the item does not have fixed price #}
+                                          ${{ '%.2f' % item.rate }}
+                                       {% elif item.isFixedPrice and item.rate>0%}
+                                          {# if the item does has fixed price #}
+                                          ${{ '%.2f' % item.rate }} <span class="text-secondary">(one-time)</span>
+                                       {% elif item.rate==0 %}
+                                          {# if the item is free of cost #}
+                                          <span class="text-secondary">Free</span>
+                                       {% endif %}
+                                    </td>
                                     <td class="text-center">
                                        {% if not item.isFixedPrice %}
                                           {{item.hours}}
@@ -127,8 +138,8 @@
                            {% set total.final_total = total.subtotal_price - mod_charges %}
                            <small>TOTAL</small> <span class="f-w-600">${{ '%.2f' % total.final_total }}</span>
                         </div>
-                        <div class="invoice-price-right">
-                           <small>AFTER DUE DATE</small> <span class="f-w-600">${{ '%.2f' % (total.final_total + (total.final_total * percentIncreaseAfterDueDate)) }}</span>
+                        <div class="invoice-price-right margin-left">
+                           <small>AFTER DUE DATE</small> <span class="f-w-600 total-red-font">${{ '%.2f' % (total.final_total + (total.final_total * percentIncreaseAfterDueDate)) }}</span>
                         </div>
                      </div>
                      <!-- end invoice-price -->
@@ -150,9 +161,8 @@
                         THANK YOU FOR YOUR BUSINESS
                      </p>
                      <p class="text-center">
-                        <span class="m-r-10"><i class="fa fa-fw fa-lg fa-globe"></i> matiasgallipoli.com</span>
-                        <span class="m-r-10"><i class="fa fa-fw fa-lg fa-phone-volume"></i> T:016-18192302</span>
-                        <span class="m-r-10"><i class="fa fa-fw fa-lg fa-envelope"></i> rtiemps@gmail.com</span>
+                        <span class="m-r-10"><i class="fa fa-fw fa-lg fa-globe"></i> <a href="{{server.profileURL.url}}">{{server.profileURL.displayText}}</a></span>
+                        <span class="m-r-10"><i class="fa fa-fw fa-lg fa-envelope"></i> <a href="mailto:{{server.email}}">{{server.email}}</a></span>
                      </p>
                   </div>
                   <!-- end invoice-footer -->
@@ -160,6 +170,5 @@
             </div>
          </div>
         
-        <script src="" async defer></script>
     </body>
 </html>

@@ -1,15 +1,15 @@
 {
     "title": "Services Invoice",
     "invoiceNumber": 13,
-    "issueDate": "10-03-2023",
-    "dueDate": "10-03-2023",
-    "status": "paid",
+    "issueDate": "11-12-2023",
+    "dueDate": "18-12-2023",
+    "status": "due",
     "client": {
         "firstName": "John",
         "lastName": "Doe",
         "address": {
             "city": "Popular City",
-            "country": "High Country"
+            "country": "Popular Country"
         },
         "email": "john.doe@localhost.com"
     },
@@ -22,43 +22,47 @@
             "city": "Karachi, Sindh",
             "country": "Pakistan"
         },
-        "email": "hammad.siliconplex@gmail.com"
+        "email": "hammad.hassan@localhost.com",
+        "profileURL": {
+            "url": "https://www.upwork.com/freelancers/~01f9b5bc6f481f0385",
+            "displayText": "Hammad on Upwork"
+        }
     },
     "itemList": [
         {
-            "title": "Python",
-            "description": "python basics",
+            "title": "Python Course",
+            "description": "Python basics course to get you started",
             "isFixedPrice": false,
-            "rate": 12,
-            "hours": 10
+            "rate": 10,
+            "hours": 15
         },
         {
             "title": "HTML/CSS/JS",
-            "description": "basic frontend",
+            "description": "Beginner's frontend course",
             "isFixedPrice": false,
-            "rate": 14,
-            "hours": 8
+            "rate": 6,
+            "hours": 10
         },
         {
             "title": "Django",
-            "description": "basics of the framework",
+            "description": "Complete walkthrough of the framework",
             "isFixedPrice": false,
-            "rate": 11,
+            "rate": 12,
             "hours": 30
         },
         {
-            "title": "Course Handouts",
-            "description": "booklets and slides",
+            "title": "Course Materials",
+            "description": "Booklets, slides, exercises and more",
             "isFixedPrice": true,
-            "rate": 6,
+            "rate": 0,
             "hours": 0
         }
     ],
     "moderatorCharges": 0.1,
     "percentIncreaseAfterDueDate": 0.05,
     "terms": [
-        "Make all cheques payable to M. Hammad Hassan on Upwork bearing username 'Muhammad Hammad Hassan'",
-        "Payment is due within 30 days",
-        "If you have any questions concerning this invoice, contact  Muhammad Hammad Hassan on Upwork"
+        "Make all cheques payable to M. Hammad Hassan on Upwork bearing username <strong>Muhammad Hammad H.</strong>.",
+        "Payment is due within the defined due date. Failure to pay within the given timeframe will incur an increase of 5% in the total amount.",
+        "If you have any questions concerning this invoice, contact  <a href='https://www.upwork.com/freelancers/~01f9b5bc6f481f0385'>Muhammad Hammad Hassan</a> on Upwork."
     ]
 }
