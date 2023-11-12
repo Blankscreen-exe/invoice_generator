@@ -34,3 +34,6 @@ If all goes as planned, you will see a message in the terminal like this:
 PDF generated: output-12-Nov-2023.pdf
 ```
 
+## Preview
+
+![preview](./docs/preview.png)
