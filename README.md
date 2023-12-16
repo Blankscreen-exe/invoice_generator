@@ -4,6 +4,8 @@ This is an invoice generator built with `Jinja2` and `WeasyPrint`.
 
 You can use this to make a pdf and an html invoice. Before you can use this script, you will need to customize some settings beforehand.
 
+> 📌 This repository is a part of a blog article that I wrote [here on medium.com](https://medium.com/@hammad.ai/create-an-invoice-generator-using-python-jinja2-weasyprint-48ef1f450ac5)
+
 ## Installation
 
 I recommend that you create a virtual environment first, before installing the dependencies.
@@ -37,3 +39,5 @@ PDF generated: output-12-Nov-2023.pdf
 ## Preview
 
 ![preview](./docs/preview.png)
+
+> 📌 I found the original template [here](https://www.bootdey.com/snippets/view/bs4-invoice) and did some modifications to it to fit my needs.
